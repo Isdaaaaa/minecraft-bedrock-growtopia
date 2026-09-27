@@ -1,0 +1,32 @@
+[plugin]
+name = "GrowWorld"
+version = "0.1.0"
+api_version = "0.5"
+description = "Growtopia-like dynamic world management with shard-based dimensions"
+authors = ["Isdaaaaa"]
+website = "https://github.com/Isdaaaaa/minecraft-bedrock-growtopia"
+load = "POSTWORLD"
+
+[commands]
+  [commands.gw]
+  description = "GrowWorld main command"
+  usages = ["/gw <create|join|leave|info|lock|kick|ban|unban>"]
+  aliases = ["growworld", "world"]
+
+  [commands.gwadmin]
+  description = "GrowWorld admin command"
+  usages = ["/gwadmin <shards|worlds|teleport|reset>"]
+  permissions = ["growworld.admin"]
+
+[permissions]
+  [permissions."growworld.world.create"]
+  description = "Allows player to create new worlds"
+  default = true
+
+  [permissions."growworld.world.join"]
+  description = "Allows player to join worlds"
+  default = true
+
+  [permissions."growworld.admin"]
+  description = "Full admin access to GrowWorld systems"
+  default = "op"
