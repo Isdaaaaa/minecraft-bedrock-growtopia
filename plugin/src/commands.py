@@ -18,16 +18,15 @@ if TYPE_CHECKING:
 
 
 HELP_TEXT = """§6§l== GrowWorld Commands ==§r
-§f/gw create <name>§7 — Create a new world
-§f/gw join <name>§7   — Enter a world
-§f/gw leave§7         — Return to lobby
-§f/gw info [name]§7   — Show world info
-§f/gw lock§7          — Toggle world lock (owner only)
-§f/gw kick <player>§7 — Kick a player from your world
-§f/gw ban <player>§7  — Ban a player from your world
-§f/gw unban <player>§7— Unban a player from your world
-§f/gw add <player>§7  — Grant build access (owner only)
-§f/gw remove <player>§7— Revoke build access"""
+§f/gw <WORLDNAME>§7  — Enter or create a world (just like Growtopia!)
+§f/gw leave§7        — Return to the Hub
+§f/gw info [name]§7  — Show world info
+§f/gw lock§7         — Cycle lock level (owner only)
+§f/gw kick <player>§7— Kick a player from your world
+§f/gw ban <player>§7 — Ban a player from your world
+§f/gw unban <player>§7—Unban a player from your world
+§f/gw add <player>§7 — Grant build access (owner only)
+§f/gw remove <player>§7—Revoke build access"""
 
 ADMIN_HELP = """§c§l== GrowWorld Admin ==§r
 §f/gwadmin shards§7     — Show shard usage
@@ -55,11 +54,8 @@ class CommandHandler:
 
         sub = args[0].lower()
 
-        if sub == "create":
-            return self._cmd_create(sender, args[1:])
-        elif sub == "join":
-            return self._cmd_join(sender, args[1:])
-        elif sub == "leave":
+        # Named subcommands
+        if sub == "leave":
             return self._cmd_leave(sender)
         elif sub == "info":
             return self._cmd_info(sender, args[1:])
@@ -75,9 +71,12 @@ class CommandHandler:
             return self._cmd_add(sender, args[1:])
         elif sub == "remove":
             return self._cmd_remove(sender, args[1:])
-        else:
+        elif sub == "help":
             sender.send_message(HELP_TEXT)
-        return True
+            return True
+        else:
+            # Treat the argument as a world name → join or create (Growtopia-style)
+            return self._cmd_join_or_create(sender, args[0])
 
     # ------------------------------------------------------------------
     # /gwadmin dispatcher
@@ -102,28 +101,32 @@ class CommandHandler:
     # Subcommands
     # ------------------------------------------------------------------
 
-    def _cmd_create(self, sender, args):
+    def _cmd_join_or_create(self, sender, world_name: str):
+        """Primary world command — join if exists, create if not."""
         if not self._require_player(sender):
             return True
-        if not args:
-            sender.send_message("§cUsage: /gw create <world name>")
-            return True
-        ok, msg = self._wm.create_world(sender, args[0])
-        sender.send_message(msg)
-        return True
-
-    def _cmd_join(self, sender, args):
-        if not self._require_player(sender):
-            return True
-        if not args:
-            sender.send_message("§cUsage: /gw join <world name>")
-            return True
-        ok, msg = self._wm.join_world(sender, args[0])
+        ok, msg = self._wm.join_or_create(sender, world_name)
         if msg:
             sender.send_message(msg)
         if ok:
             self._plugin.tablist_manager.update_all()
         return True
+
+    def _cmd_create(self, sender, args):
+        if not self._require_player(sender):
+            return True
+        if not args:
+            sender.send_message("§cUsage: /gw <world name>")
+            return True
+        return self._cmd_join_or_create(sender, args[0])
+
+    def _cmd_join(self, sender, args):
+        if not self._require_player(sender):
+            return True
+        if not args:
+            sender.send_message("§cUsage: /gw <world name>")
+            return True
+        return self._cmd_join_or_create(sender, args[0])
 
     def _cmd_leave(self, sender):
         if not self._require_player(sender):

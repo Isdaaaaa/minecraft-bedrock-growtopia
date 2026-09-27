@@ -85,9 +85,15 @@ class GrowWorldPlugin(Plugin):
     def on_player_join(self, event: PlayerJoinEvent) -> None:
         player = event.player
         self.world_manager.on_player_join(player)
-        # Small delay to let the client finish loading before updating tab list
+        # Wait 2 seconds (40 ticks) for client to finish loading, then send to hub
         self.server.scheduler.run_task_later(
-            self, lambda: self.tablist_manager.update_all(), delay=20
+            self,
+            lambda: self.world_manager.send_to_hub(player),
+            delay=40,
+        )
+        # Update tab lists after a short delay
+        self.server.scheduler.run_task_later(
+            self, lambda: self.tablist_manager.update_all(), delay=60
         )
 
     @event_handler

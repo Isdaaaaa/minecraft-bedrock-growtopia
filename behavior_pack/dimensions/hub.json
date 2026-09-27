@@ -1,0 +1,17 @@
+{
+  "format_version": "1.21.0",
+  "minecraft:dimension": {
+    "description": {
+      "identifier": "growworld:hub"
+    },
+    "components": {
+      "minecraft:dimension_bounds": {
+        "min": -64,
+        "max": 320
+      },
+      "minecraft:world_gen": {
+        "noise_settings": "minecraft:the_void"
+      }
+    }
+  }
+}

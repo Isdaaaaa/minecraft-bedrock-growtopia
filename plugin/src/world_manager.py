@@ -9,9 +9,13 @@ import re
 import time
 from typing import Optional, Dict, TYPE_CHECKING
 
-from .models import GrowWorld, PlayerSession, WorldSlot, LockLevel, SPAWN_Y
+from .models import (
+    GrowWorld, PlayerSession, WorldSlot, LockLevel, SPAWN_Y,
+    HUB_DIMENSION_ID, HUB_SPAWN_X, HUB_SPAWN_Y, HUB_SPAWN_Z,
+)
 from .database import Database
 from .shard_manager import ShardManager
+from .world_template import WorldTemplate
 
 if TYPE_CHECKING:
     from endstone.player import Player
@@ -36,22 +40,47 @@ class WorldManager:
         self._plugin = plugin
         self._db = db
         self._shards = shard_manager
+        self._template = WorldTemplate(plugin)
 
         # In-memory session map: player_uuid → PlayerSession
         self._sessions: Dict[str, PlayerSession] = {}
 
     # ------------------------------------------------------------------
-    # World creation
+    # Unified join-or-create  (Growtopia-style: one command for both)
+    # ------------------------------------------------------------------
+
+    def join_or_create(self, player: "Player", world_id: str) -> tuple[bool, str]:
+        """
+        The primary entry point for the /gw <name> command.
+        - If the world exists  → join it (subject to lock/ban checks).
+        - If it doesn't exist  → create it and immediately join it.
+        This mirrors how Growtopia works: typing any world name takes you there.
+        """
+        world_id = world_id.upper()
+
+        if self._db.world_exists(world_id):
+            return self.join_world(player, world_id)
+        else:
+            ok, msg = self.create_world(player, world_id)
+            if ok:
+                # Auto-join after creation
+                self.join_world(player, world_id)
+                return True, f"§aCreated and entered §f{world_id}§a."
+            return False, msg
+
+    # ------------------------------------------------------------------
+    # World creation (internal — prefer join_or_create from commands)
     # ------------------------------------------------------------------
 
     def create_world(self, owner: "Player", world_id: str) -> tuple[bool, str]:
         """
-        Creates a new world. Returns (success, message).
+        Allocates a slot, persists the world record, and generates terrain.
+        Returns (success, message).
         """
         world_id = world_id.upper()
 
         if not _WORLD_NAME_RE.match(world_id):
-            return False, "§cWorld name must be 3-24 alphanumeric characters."
+            return False, "§cWorld name must be 3-24 alphanumeric characters (A-Z, 0-9)."
 
         if self._db.world_exists(world_id):
             return False, f"§cWorld §f{world_id}§c already exists."
@@ -74,7 +103,49 @@ class WorldManager:
             f"World '{world_id}' created by {owner.name} "
             f"at shard={slot.shard_id} slot=({slot.slot_x},{slot.slot_z})"
         )
-        return True, f"§aWorld §f{world_id}§a created! Use §f/gw join {world_id}§a to enter."
+
+        # Generate terrain asynchronously so server doesn't freeze
+        try:
+            dimension = self._plugin.server.level.get_dimension(slot.dimension_id)
+            self._template.generate_async(dimension, slot)
+        except Exception as e:
+            self._plugin.logger.warning(
+                f"[WorldTemplate] Could not start terrain generation for "
+                f"'{world_id}': {e}. World exists but terrain may be void."
+            )
+
+        return True, f"§aWorld §f{world_id}§a created!"
+
+    # ------------------------------------------------------------------
+    # Hub
+    # ------------------------------------------------------------------
+
+    def send_to_hub(self, player: "Player") -> None:
+        """
+        Teleports a player to the hub dimension.
+        Called on first join and when a player uses /gw leave from a world.
+        """
+        session = self._get_or_create_session(player)
+        session.current_world_id = None   # Hub = no active world
+        self._sessions[str(player.unique_id)] = session
+        self._db.set_player_session(session)
+
+        try:
+            hub_dim = self._plugin.server.level.get_dimension(HUB_DIMENSION_ID)
+            loc = player.location
+            player.teleport(loc.__class__(
+                hub_dim, HUB_SPAWN_X, HUB_SPAWN_Y, HUB_SPAWN_Z, 0.0, 0.0
+            ))
+        except Exception as e:
+            self._plugin.logger.warning(f"[Hub] Failed to teleport {player.name} to hub: {e}")
+            # Fallback: teleport to overworld origin
+            self._teleport_to_lobby(player)
+
+        player.send_message(
+            "§6§lWelcome to GrowWorld!§r\n"
+            "§7Type §f/gw <WORLDNAME>§7 to enter or create a world.\n"
+            "§7World names are §fA-Z, 0-9§7, 3-24 characters."
+        )
 
     # ------------------------------------------------------------------
     # Joining / leaving
@@ -118,32 +189,26 @@ class WorldManager:
         return True, ""
 
     def leave_world(self, player: "Player") -> None:
-        """Sends a player back to the server lobby/spawn."""
+        """Sends a player back to the hub."""
         world_id = self.get_player_world_id(player)
         if world_id:
             player.send_message(WORLD_LEAVE_MESSAGE.format(world_id=world_id))
-
-        session = self._get_or_create_session(player)
-        session.current_world_id = None
-        self._sessions[str(player.unique_id)] = session
-        self._db.set_player_session(session)
-
-        # Teleport back to server lobby (0, 64, 0 in overworld)
-        self._teleport_to_lobby(player)
+        self.send_to_hub(player)
 
     # ------------------------------------------------------------------
     # Player session helpers
     # ------------------------------------------------------------------
 
     def on_player_join(self, player: "Player") -> None:
-        """Called when a player connects to the server."""
+        """Called when a player connects to the server — send them to the hub."""
         session = PlayerSession(
             player_uuid=str(player.unique_id),
             player_name=player.name,
-            current_world_id=None,   # Start in lobby
+            current_world_id=None,
         )
         self._sessions[str(player.unique_id)] = session
         self._db.set_player_session(session)
+        # Hub teleport is scheduled after initial load in __init__.py
 
     def on_player_quit(self, player: "Player") -> None:
         """Called when a player disconnects."""

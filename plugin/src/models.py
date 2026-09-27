@@ -38,6 +38,15 @@ SHARD_DIMENSIONS = {
     9: "growworld:shard_9",
 }
 
+# The hub is a dedicated dimension — NOT a shard.
+# New players always land here first (tutorial / START world equivalent).
+HUB_DIMENSION_ID = "growworld:hub"
+
+# Hub spawn point (centre of a pre-built hub structure in the hub dimension)
+HUB_SPAWN_X: float = 0.5
+HUB_SPAWN_Y: float = 1.0
+HUB_SPAWN_Z: float = 0.5
+
 TOTAL_SHARDS = len(SHARD_DIMENSIONS)
 
 
