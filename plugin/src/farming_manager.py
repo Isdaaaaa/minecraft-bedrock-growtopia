@@ -61,6 +61,29 @@ UNBREAKABLE_BLOCKS = {
     "minecraft:flowing_lava",
 }
 
+# Right-clicking these opens vanilla UIs that would allow crafting/smelting.
+# All are cancelled — splicing is the only crafting system.
+CRAFTING_BLOCKS = {
+    "minecraft:crafting_table",
+    "minecraft:furnace",
+    "minecraft:lit_furnace",
+    "minecraft:blast_furnace",
+    "minecraft:lit_blast_furnace",
+    "minecraft:smoker",
+    "minecraft:lit_smoker",
+    "minecraft:enchanting_table",
+    "minecraft:smithing_table",
+    "minecraft:anvil",
+    "minecraft:chipped_anvil",
+    "minecraft:damaged_anvil",
+    "minecraft:loom",
+    "minecraft:cartography_table",
+    "minecraft:fletching_table",
+    "minecraft:grindstone",
+    "minecraft:stonecutter",
+    "minecraft:stonecutter_block",
+}
+
 
 class FarmingManager:
     """
@@ -161,7 +184,18 @@ class FarmingManager:
 
     def on_player_interact(self, event: "PlayerInteractEvent") -> None:
         player = event.player
-        item   = player.inventory.item_in_main_hand
+        block  = event.block
+
+        # --- Disable vanilla crafting / utility blocks ---
+        if block is not None and block.type in CRAFTING_BLOCKS:
+            event.cancelled = True
+            player.send_message(
+                "§cCrafting is disabled. "
+                "§7Plant seeds and splice them to create blocks and items."
+            )
+            return
+
+        item = player.inventory.item_in_main_hand
         if item is None:
             return
 
