@@ -71,10 +71,12 @@ class TerraviaPlugin(Plugin):
 
     def on_command(self, sender, command, args):
         name = command.name.lower()
-        if name == "gw":
-            return self.cmd_handler.on_gw(sender, list(args))
-        if name == "gwadmin":
-            return self.cmd_handler.on_gwadmin(sender, list(args))
+        if name == "join":
+            return self.cmd_handler.on_join(sender, list(args))
+        if name in ("world", "tw", "w"):
+            return self.cmd_handler.on_world(sender, list(args))
+        if name == "wadmin":
+            return self.cmd_handler.on_wadmin(sender, list(args))
         return False
 
     # ------------------------------------------------------------------

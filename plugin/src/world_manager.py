@@ -10,7 +10,7 @@ import time
 from typing import Optional, Dict, TYPE_CHECKING
 
 from .models import (
-    GrowWorld, PlayerSession, WorldSlot, LockLevel, SPAWN_Y,
+    TerraviaWorld, PlayerSession, WorldSlot, LockLevel, SPAWN_Y,
     HUB_DIMENSION_ID, HUB_SPAWN_X, HUB_SPAWN_Y, HUB_SPAWN_Z,
 )
 from .database import Database
@@ -51,7 +51,7 @@ class WorldManager:
 
     def join_or_create(self, player: "Player", world_id: str) -> tuple[bool, str]:
         """
-        The primary entry point for the /gw <name> command.
+        The primary entry point for the /join <name> command.
         - If the world exists  → join it (subject to lock/ban checks).
         - If it doesn't exist  → create it and immediately join it.
         This mirrors how Growtopia works: typing any world name takes you there.
@@ -89,7 +89,7 @@ class WorldManager:
         if slot is None:
             return False, "§cNo world slots available. Contact an admin."
 
-        world = GrowWorld(
+        world = TerraviaWorld(
             world_id=world_id,
             owner_uuid=str(owner.unique_id),
             owner_name=owner.name,
@@ -123,7 +123,7 @@ class WorldManager:
     def send_to_hub(self, player: "Player") -> None:
         """
         Teleports a player to the hub dimension.
-        Called on first join and when a player uses /gw leave from a world.
+        Called on first join and when a player uses /world leave.
         """
         session = self._get_or_create_session(player)
         session.current_world_id = None   # Hub = no active world
@@ -143,7 +143,7 @@ class WorldManager:
 
         player.send_message(
             "§6§lWelcome to Terravia!§r\n"
-            "§7Type §f/gw <WORLDNAME>§7 to enter or create a world.\n"
+            "§7Type §f/join <WORLDNAME>§7 to enter or create a world.\n"
             "§7World names are §fA-Z, 0-9§7, 3-24 characters."
         )
 

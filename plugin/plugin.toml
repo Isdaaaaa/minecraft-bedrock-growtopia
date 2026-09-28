@@ -8,25 +8,27 @@ website = "https://github.com/Isdaaaaa/minecraft-bedrock-growtopia"
 load = "POSTWORLD"
 
 [commands]
-  [commands.gw]
-  description = "GrowWorld main command"
-  usages = ["/gw <create|join|leave|info|lock|kick|ban|unban>"]
-  aliases = ["growworld", "world"]
+  [commands.join]
+  description = "Enter or create a Terravia world by name"
+  usages = ["/join <world name>"]
+  aliases = ["j"]
+  permissions = ["terravia.world.join"]
 
-  [commands.gwadmin]
-  description = "GrowWorld admin command"
-  usages = ["/gwadmin <shards|worlds|teleport|reset>"]
-  permissions = ["growworld.admin"]
+  [commands.world]
+  description = "Manage your current world (lock, kick, ban, info, etc.)"
+  usages = ["/world <leave|info|lock|kick|ban|unban|add|remove>"]
+  aliases = ["tw", "w"]
+
+  [commands.wadmin]
+  description = "Terravia admin commands"
+  usages = ["/wadmin <shards|tp <world>>"]
+  permissions = ["terravia.admin"]
 
 [permissions]
-  [permissions."growworld.world.create"]
-  description = "Allows player to create new worlds"
+  [permissions."terravia.world.join"]
+  description = "Allows player to join and create worlds"
   default = true
 
-  [permissions."growworld.world.join"]
-  description = "Allows player to join worlds"
-  default = true
-
-  [permissions."growworld.admin"]
-  description = "Full admin access to GrowWorld systems"
+  [permissions."terravia.admin"]
+  description = "Full admin access to Terravia systems"
   default = "op"
