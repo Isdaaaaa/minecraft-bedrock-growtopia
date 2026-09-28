@@ -10,7 +10,7 @@ import time
 from typing import Optional, Dict, TYPE_CHECKING
 
 from .models import (
-    TerraviaWorld, PlayerSession, WorldSlot, LockLevel, SPAWN_Y,
+    Terravia, PlayerSession, WorldSlot, LockLevel, SPAWN_Y,
     HUB_DIMENSION_ID, HUB_SPAWN_X, HUB_SPAWN_Y, HUB_SPAWN_Z,
 )
 from .database import Database
@@ -89,7 +89,7 @@ class WorldManager:
         if slot is None:
             return False, "§cNo world slots available. Contact an admin."
 
-        world = TerraviaWorld(
+        world = Terravia(
             world_id=world_id,
             owner_uuid=str(owner.unique_id),
             owner_name=owner.name,

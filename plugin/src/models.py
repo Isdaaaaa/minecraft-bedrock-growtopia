@@ -119,7 +119,7 @@ class WorldSlot:
 
 
 @dataclass
-class TerraviaWorld:
+class Terravia:
     """
     A player-owned world, analogous to a Growtopia world.
     """
