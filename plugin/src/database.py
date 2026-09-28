@@ -83,6 +83,29 @@ class Database:
             banned_at   REAL NOT NULL,
             PRIMARY KEY (world_id, player_uuid)
         );
+
+        CREATE TABLE IF NOT EXISTS planted_seeds (
+            id             INTEGER PRIMARY KEY AUTOINCREMENT,
+            world_id       TEXT    NOT NULL,
+            dimension_id   TEXT    NOT NULL,
+            x              INTEGER NOT NULL,
+            y              INTEGER NOT NULL,
+            z              INTEGER NOT NULL,
+            seed_type      TEXT    NOT NULL,
+            planted_at     REAL    NOT NULL,
+            growth_stage   INTEGER NOT NULL DEFAULT 0,
+            is_splicing    INTEGER NOT NULL DEFAULT 0,
+            splice_partner TEXT,
+            splice_result  TEXT,
+            UNIQUE(dimension_id, x, y, z)
+        );
+
+        CREATE TABLE IF NOT EXISTS player_discoveries (
+            player_uuid   TEXT NOT NULL,
+            seed_type     TEXT NOT NULL,
+            discovered_at REAL NOT NULL,
+            PRIMARY KEY (player_uuid, seed_type)
+        );
         """)
 
         # Initialise shard state rows if not present
@@ -280,3 +303,83 @@ class Database:
         self._conn.execute("DELETE FROM player_sessions")
         self._conn.commit()
         self._conn.close()
+
+    # ------------------------------------------------------------------
+    # Farming — planted seeds
+    # ------------------------------------------------------------------
+
+    def plant_seed(self, world_id: str, dimension_id: str,
+                   x: int, y: int, z: int,
+                   seed_type: str, planted_at: float) -> None:
+        self._conn.execute(
+            """INSERT OR REPLACE INTO planted_seeds
+               (world_id, dimension_id, x, y, z, seed_type, planted_at,
+                growth_stage, is_splicing, splice_partner, splice_result)
+               VALUES (?,?,?,?,?,?,?,0,0,NULL,NULL)""",
+            (world_id, dimension_id, x, y, z, seed_type, planted_at)
+        )
+        self._conn.commit()
+
+    def get_planted_seed(self, dimension_id: str,
+                         x: int, y: int, z: int) -> dict | None:
+        cur = self._conn.execute(
+            """SELECT * FROM planted_seeds
+               WHERE dimension_id=? AND x=? AND y=? AND z=?""",
+            (dimension_id, x, y, z)
+        )
+        row = cur.fetchone()
+        return dict(row) if row else None
+
+    def get_all_planted_seeds(self) -> list[dict]:
+        cur = self._conn.execute("SELECT * FROM planted_seeds")
+        return [dict(r) for r in cur.fetchall()]
+
+    def update_growth_stage(self, dimension_id: str,
+                             x: int, y: int, z: int, stage: int) -> None:
+        self._conn.execute(
+            """UPDATE planted_seeds SET growth_stage=?
+               WHERE dimension_id=? AND x=? AND y=? AND z=?""",
+            (stage, dimension_id, x, y, z)
+        )
+        self._conn.commit()
+
+    def mark_splicing(self, dimension_id: str,
+                      x: int, y: int, z: int,
+                      splice_partner: str, splice_result: str) -> None:
+        self._conn.execute(
+            """UPDATE planted_seeds
+               SET is_splicing=1, splice_partner=?, splice_result=?,
+                   growth_stage=0, planted_at=?
+               WHERE dimension_id=? AND x=? AND y=? AND z=?""",
+            (splice_partner, splice_result, __import__("time").time(),
+             dimension_id, x, y, z)
+        )
+        self._conn.commit()
+
+    def remove_planted_seed(self, dimension_id: str,
+                             x: int, y: int, z: int) -> None:
+        self._conn.execute(
+            """DELETE FROM planted_seeds
+               WHERE dimension_id=? AND x=? AND y=? AND z=?""",
+            (dimension_id, x, y, z)
+        )
+        self._conn.commit()
+
+    # ------------------------------------------------------------------
+    # Farming — player discoveries
+    # ------------------------------------------------------------------
+
+    def record_discovery(self, player_uuid: str, seed_type: str) -> None:
+        self._conn.execute(
+            """INSERT OR IGNORE INTO player_discoveries
+               (player_uuid, seed_type, discovered_at) VALUES (?,?,?)""",
+            (player_uuid, seed_type, __import__("time").time())
+        )
+        self._conn.commit()
+
+    def get_player_discoveries(self, player_uuid: str) -> list[str]:
+        cur = self._conn.execute(
+            "SELECT seed_type FROM player_discoveries WHERE player_uuid=?",
+            (player_uuid,)
+        )
+        return [row[0] for row in cur.fetchall()]

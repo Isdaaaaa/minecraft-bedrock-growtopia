@@ -14,6 +14,7 @@ from endstone.event.player import (
     PlayerMoveEvent,
 )
 from endstone.event.block import BlockBreakEvent, BlockPlaceEvent
+from endstone.event.player import PlayerInteractEvent
 
 from .database import Database
 from .models import SLOT_SIZE, BUFFER, WORLD_SIZE
@@ -22,6 +23,7 @@ from .world_manager import WorldManager
 from .chat_manager import ChatManager
 from .tablist_manager import TabListManager
 from .commands import CommandHandler
+from .farming_manager import FarmingManager
 
 
 class TerraviaPlugin(Plugin):
@@ -49,9 +51,15 @@ class TerraviaPlugin(Plugin):
             self.shard_manager,
             self.db,
         )
+        self.farming_manager = FarmingManager(self, self.db)
 
         # Register all event listeners
         self.register_events(self)
+
+        # Refresh Miner's Gloves Haste every 5 seconds (100 ticks)
+        self.server.scheduler.run_task_timer(
+            self, self._tick_gloves_effect, delay=100, period=100
+        )
 
         self.logger.info(
             f"Terravia ready. "
@@ -117,11 +125,31 @@ class TerraviaPlugin(Plugin):
 
     @event_handler
     def on_block_break(self, event: BlockBreakEvent) -> None:
-        self.world_manager.check_block_permission(event, "break")
+        # Farming manager runs first: handles seedling harvest and custom drops
+        self.farming_manager.on_block_break(event)
+        if not event.cancelled:
+            # World boundary / permission check
+            self.world_manager.check_block_permission(event, "break")
 
     @event_handler
     def on_block_place(self, event: BlockPlaceEvent) -> None:
         self.world_manager.check_block_permission(event, "place")
+
+    @event_handler
+    def on_player_interact(self, event: PlayerInteractEvent) -> None:
+        """Right-click with a seed → plant or splice."""
+        self.farming_manager.on_player_interact(event)
+
+    # ------------------------------------------------------------------
+    # Miner's Gloves — Haste tick (every 5 seconds)
+    # ------------------------------------------------------------------
+
+    def _tick_gloves_effect(self) -> None:
+        for player in self.server.online_players:
+            try:
+                self.farming_manager.apply_gloves_effect(player)
+            except Exception:
+                pass
 
     # ------------------------------------------------------------------
     # Events — Movement boundary enforcement

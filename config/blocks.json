@@ -1,0 +1,445 @@
+{
+  "_comment": "Terravia block/seed configuration. Each key is the internal seed ID.",
+  "_rarity_grow_times": {
+    "common":       { "minutes": 5,   "min_drops": 1, "max_drops": 4, "redrop": 0.40 },
+    "uncommon":     { "minutes": 15,  "min_drops": 1, "max_drops": 3, "redrop": 0.30 },
+    "rare":         { "minutes": 45,  "min_drops": 1, "max_drops": 2, "redrop": 0.20 },
+    "very_rare":    { "minutes": 120, "min_drops": 1, "max_drops": 2, "redrop": 0.12 },
+    "legendary":    { "minutes": 480, "min_drops": 1, "max_drops": 1, "redrop": 0.05 }
+  },
+
+  "grass_seed": {
+    "id": "S01", "display": "Grass Seed",
+    "block_id": "minecraft:grass_block",
+    "rarity": "common", "drop_chance": 0.35,
+    "plant_on": ["minecraft:dirt", "minecraft:grass_block", "minecraft:coarse_dirt", "minecraft:farmland"]
+  },
+  "dirt_seed": {
+    "id": "S02", "display": "Dirt Seed",
+    "block_id": "minecraft:dirt",
+    "rarity": "common", "drop_chance": 0.40,
+    "plant_on": ["minecraft:dirt", "minecraft:grass_block", "minecraft:coarse_dirt", "minecraft:farmland"]
+  },
+  "stone_seed": {
+    "id": "S03", "display": "Stone Seed",
+    "block_id": "minecraft:stone",
+    "rarity": "common", "drop_chance": 0.30,
+    "plant_on": ["minecraft:dirt", "minecraft:grass_block", "minecraft:stone", "minecraft:cobblestone", "minecraft:farmland"]
+  },
+  "deepslate_seed": {
+    "id": "S04", "display": "Deepslate Seed",
+    "block_id": "minecraft:deepslate",
+    "rarity": "common", "drop_chance": 0.25,
+    "plant_on": ["minecraft:dirt", "minecraft:deepslate", "minecraft:farmland"]
+  },
+  "gravel_seed": {
+    "id": "S05", "display": "Gravel Seed",
+    "block_id": "minecraft:gravel",
+    "rarity": "common", "drop_chance": 0.30,
+    "plant_on": ["minecraft:dirt", "minecraft:grass_block", "minecraft:gravel", "minecraft:farmland"]
+  },
+  "sand_seed": {
+    "id": "S06", "display": "Sand Seed",
+    "block_id": "minecraft:sand",
+    "rarity": "common", "drop_chance": 0.30,
+    "plant_on": ["minecraft:dirt", "minecraft:sand", "minecraft:farmland"]
+  },
+  "oak_log_seed": {
+    "id": "S07", "display": "Oak Log Seed",
+    "block_id": "minecraft:oak_log",
+    "rarity": "uncommon", "drop_chance": 0.25,
+    "plant_on": ["minecraft:dirt", "minecraft:grass_block", "minecraft:farmland"]
+  },
+  "oak_leaf_seed": {
+    "id": "S08", "display": "Oak Leaf Seed",
+    "block_id": "minecraft:oak_leaves",
+    "rarity": "uncommon", "drop_chance": 0.15,
+    "plant_on": ["minecraft:dirt", "minecraft:grass_block", "minecraft:farmland"]
+  },
+  "coal_ore_seed": {
+    "id": "S09", "display": "Coal Ore Seed",
+    "block_id": "minecraft:coal_ore",
+    "rarity": "uncommon", "drop_chance": 0.20,
+    "plant_on": ["minecraft:stone", "minecraft:dirt", "minecraft:farmland"]
+  },
+  "iron_ore_seed": {
+    "id": "S10", "display": "Iron Ore Seed",
+    "block_id": "minecraft:iron_ore",
+    "rarity": "uncommon", "drop_chance": 0.15,
+    "plant_on": ["minecraft:stone", "minecraft:dirt", "minecraft:farmland"]
+  },
+  "water_seed": {
+    "id": "S11", "display": "Water Seed",
+    "block_id": "minecraft:water",
+    "block_result": "minecraft:water",
+    "rarity": "rare", "drop_chance": 0.10,
+    "plant_on": ["minecraft:dirt", "minecraft:farmland"],
+    "note": "Grows into a water source block"
+  },
+  "lava_seed": {
+    "id": "S12", "display": "Lava Seed",
+    "block_id": "minecraft:lava",
+    "rarity": "rare", "drop_chance": 0.08,
+    "plant_on": ["minecraft:stone", "minecraft:blackstone", "minecraft:farmland"],
+    "note": "Grows into a lava source block"
+  },
+  "gold_ore_seed": {
+    "id": "S13", "display": "Gold Ore Seed",
+    "block_id": "minecraft:gold_ore",
+    "rarity": "very_rare", "drop_chance": 0.08,
+    "plant_on": ["minecraft:stone", "minecraft:deepslate", "minecraft:farmland"]
+  },
+  "diamond_seed": {
+    "id": "S14", "display": "Diamond Ore Seed",
+    "block_id": "minecraft:diamond_ore",
+    "rarity": "legendary", "drop_chance": 0.05,
+    "plant_on": ["minecraft:deepslate", "minecraft:stone", "minecraft:farmland"]
+  },
+
+  "farmland_seed": {
+    "id": "S15", "display": "Farmland Seed",
+    "block_id": "minecraft:farmland",
+    "rarity": "common", "drop_chance": 1.0,
+    "plant_on": ["minecraft:dirt", "minecraft:grass_block"]
+  },
+  "coarse_dirt_seed": {
+    "id": "S16", "display": "Coarse Dirt Seed",
+    "block_id": "minecraft:coarse_dirt",
+    "rarity": "common", "drop_chance": 1.0,
+    "plant_on": ["minecraft:dirt", "minecraft:grass_block", "minecraft:farmland"]
+  },
+  "mud_seed": {
+    "id": "S17", "display": "Mud Seed",
+    "block_id": "minecraft:mud",
+    "rarity": "common", "drop_chance": 1.0,
+    "plant_on": ["minecraft:dirt", "minecraft:farmland"]
+  },
+  "cobblestone_seed": {
+    "id": "S18", "display": "Cobblestone Seed",
+    "block_id": "minecraft:cobblestone",
+    "rarity": "common", "drop_chance": 1.0,
+    "plant_on": ["minecraft:dirt", "minecraft:stone", "minecraft:farmland"]
+  },
+  "andesite_seed": {
+    "id": "S19", "display": "Andesite Seed",
+    "block_id": "minecraft:andesite",
+    "rarity": "common", "drop_chance": 1.0,
+    "plant_on": ["minecraft:dirt", "minecraft:stone", "minecraft:farmland"]
+  },
+  "sandstone_seed": {
+    "id": "S20", "display": "Sandstone Seed",
+    "block_id": "minecraft:sandstone",
+    "rarity": "common", "drop_chance": 1.0,
+    "plant_on": ["minecraft:sand", "minecraft:dirt", "minecraft:farmland"]
+  },
+  "diorite_seed": {
+    "id": "S21", "display": "Diorite Seed",
+    "block_id": "minecraft:diorite",
+    "rarity": "common", "drop_chance": 1.0,
+    "plant_on": ["minecraft:dirt", "minecraft:stone", "minecraft:farmland"]
+  },
+  "red_sand_seed": {
+    "id": "S22", "display": "Red Sand Seed",
+    "block_id": "minecraft:red_sand",
+    "rarity": "common", "drop_chance": 1.0,
+    "plant_on": ["minecraft:sand", "minecraft:dirt", "minecraft:farmland"]
+  },
+  "clay_seed": {
+    "id": "S23", "display": "Clay Seed",
+    "block_id": "minecraft:clay",
+    "rarity": "uncommon", "drop_chance": 1.0,
+    "plant_on": ["minecraft:dirt", "minecraft:farmland"]
+  },
+  "tuff_seed": {
+    "id": "S24", "display": "Tuff Seed",
+    "block_id": "minecraft:tuff",
+    "rarity": "common", "drop_chance": 1.0,
+    "plant_on": ["minecraft:dirt", "minecraft:stone", "minecraft:farmland"]
+  },
+  "polished_deepslate_seed": {
+    "id": "S25", "display": "Polished Deepslate Seed",
+    "block_id": "minecraft:polished_deepslate",
+    "rarity": "uncommon", "drop_chance": 1.0,
+    "plant_on": ["minecraft:deepslate", "minecraft:dirt", "minecraft:farmland"]
+  },
+  "birch_log_seed": {
+    "id": "S26", "display": "Birch Log Seed",
+    "block_id": "minecraft:birch_log",
+    "rarity": "uncommon", "drop_chance": 1.0,
+    "plant_on": ["minecraft:dirt", "minecraft:grass_block", "minecraft:farmland"]
+  },
+  "jungle_log_seed": {
+    "id": "S27", "display": "Jungle Log Seed",
+    "block_id": "minecraft:jungle_log",
+    "rarity": "uncommon", "drop_chance": 1.0,
+    "plant_on": ["minecraft:dirt", "minecraft:grass_block", "minecraft:farmland"]
+  },
+  "spruce_log_seed": {
+    "id": "S28", "display": "Spruce Log Seed",
+    "block_id": "minecraft:spruce_log",
+    "rarity": "uncommon", "drop_chance": 1.0,
+    "plant_on": ["minecraft:dirt", "minecraft:grass_block", "minecraft:farmland"]
+  },
+  "obsidian_seed": {
+    "id": "S29", "display": "Obsidian Seed",
+    "block_id": "minecraft:obsidian",
+    "rarity": "rare", "drop_chance": 1.0,
+    "plant_on": ["minecraft:dirt", "minecraft:stone", "minecraft:farmland"]
+  },
+  "blackstone_seed": {
+    "id": "S30", "display": "Blackstone Seed",
+    "block_id": "minecraft:blackstone",
+    "rarity": "rare", "drop_chance": 1.0,
+    "plant_on": ["minecraft:dirt", "minecraft:stone", "minecraft:farmland"]
+  },
+  "mossy_stone_seed": {
+    "id": "S31", "display": "Mossy Stone Seed",
+    "block_id": "minecraft:mossy_cobblestone",
+    "rarity": "rare", "drop_chance": 1.0,
+    "plant_on": ["minecraft:dirt", "minecraft:farmland"]
+  },
+  "moss_seed": {
+    "id": "S32", "display": "Moss Seed",
+    "block_id": "minecraft:moss_block",
+    "rarity": "rare", "drop_chance": 1.0,
+    "plant_on": ["minecraft:dirt", "minecraft:grass_block", "minecraft:farmland"]
+  },
+  "iron_block_seed": {
+    "id": "S33", "display": "Iron Block Seed",
+    "block_id": "minecraft:iron_block",
+    "rarity": "uncommon", "drop_chance": 1.0,
+    "plant_on": ["minecraft:stone", "minecraft:dirt", "minecraft:farmland"]
+  },
+  "charcoal_block_seed": {
+    "id": "S34", "display": "Charcoal Block Seed",
+    "block_id": "minecraft:coal_block",
+    "rarity": "uncommon", "drop_chance": 1.0,
+    "plant_on": ["minecraft:dirt", "minecraft:farmland"]
+  },
+  "stone_brick_seed": {
+    "id": "S35", "display": "Stone Brick Seed",
+    "block_id": "minecraft:stonebrick",
+    "rarity": "uncommon", "drop_chance": 1.0,
+    "plant_on": ["minecraft:dirt", "minecraft:stone", "minecraft:farmland"]
+  },
+  "mossy_cobblestone_seed": {
+    "id": "S36", "display": "Mossy Cobblestone Seed",
+    "block_id": "minecraft:mossy_cobblestone",
+    "rarity": "uncommon", "drop_chance": 1.0,
+    "plant_on": ["minecraft:dirt", "minecraft:farmland"]
+  },
+  "polished_andesite_seed": {
+    "id": "S37", "display": "Polished Andesite Seed",
+    "block_id": "minecraft:polished_andesite",
+    "rarity": "uncommon", "drop_chance": 1.0,
+    "plant_on": ["minecraft:dirt", "minecraft:stone", "minecraft:farmland"]
+  },
+  "polished_diorite_seed": {
+    "id": "S38", "display": "Polished Diorite Seed",
+    "block_id": "minecraft:polished_diorite",
+    "rarity": "uncommon", "drop_chance": 1.0,
+    "plant_on": ["minecraft:dirt", "minecraft:stone", "minecraft:farmland"]
+  },
+  "terracotta_seed": {
+    "id": "S39", "display": "Terracotta Seed",
+    "block_id": "minecraft:hardened_clay",
+    "rarity": "uncommon", "drop_chance": 1.0,
+    "plant_on": ["minecraft:dirt", "minecraft:farmland"]
+  },
+  "magma_block_seed": {
+    "id": "S40", "display": "Magma Block Seed",
+    "block_id": "minecraft:magma",
+    "rarity": "rare", "drop_chance": 1.0,
+    "plant_on": ["minecraft:stone", "minecraft:blackstone", "minecraft:farmland"]
+  },
+  "red_sandstone_seed": {
+    "id": "S41", "display": "Red Sandstone Seed",
+    "block_id": "minecraft:red_sandstone",
+    "rarity": "uncommon", "drop_chance": 1.0,
+    "plant_on": ["minecraft:sand", "minecraft:red_sand", "minecraft:farmland"]
+  },
+  "polished_blackstone_seed": {
+    "id": "S42", "display": "Polished Blackstone Seed",
+    "block_id": "minecraft:polished_blackstone",
+    "rarity": "rare", "drop_chance": 1.0,
+    "plant_on": ["minecraft:blackstone", "minecraft:dirt", "minecraft:farmland"]
+  },
+  "crying_obsidian_seed": {
+    "id": "S43", "display": "Crying Obsidian Seed",
+    "block_id": "minecraft:crying_obsidian",
+    "rarity": "rare", "drop_chance": 1.0,
+    "plant_on": ["minecraft:obsidian", "minecraft:dirt", "minecraft:farmland"]
+  },
+  "acacia_log_seed": {
+    "id": "S44", "display": "Acacia Log Seed",
+    "block_id": "minecraft:acacia_log",
+    "rarity": "uncommon", "drop_chance": 1.0,
+    "plant_on": ["minecraft:dirt", "minecraft:grass_block", "minecraft:farmland"]
+  },
+  "dark_oak_log_seed": {
+    "id": "S45", "display": "Dark Oak Log Seed",
+    "block_id": "minecraft:dark_oak_log",
+    "rarity": "uncommon", "drop_chance": 1.0,
+    "plant_on": ["minecraft:dirt", "minecraft:grass_block", "minecraft:farmland"]
+  },
+  "cherry_log_seed": {
+    "id": "S46", "display": "Cherry Log Seed",
+    "block_id": "minecraft:cherry_log",
+    "rarity": "uncommon", "drop_chance": 1.0,
+    "plant_on": ["minecraft:dirt", "minecraft:grass_block", "minecraft:farmland"]
+  },
+  "iron_bars_seed": {
+    "id": "S47", "display": "Iron Bars Seed",
+    "block_id": "minecraft:iron_bars",
+    "rarity": "uncommon", "drop_chance": 1.0,
+    "plant_on": ["minecraft:dirt", "minecraft:stone", "minecraft:farmland"]
+  },
+  "basic_miners_gloves": {
+    "id": "S48", "display": "Basic Miner's Gloves",
+    "block_id": null,
+    "item_id": "terravia:basic_miners_gloves",
+    "rarity": "uncommon", "drop_chance": 1.0,
+    "is_item": true,
+    "effect": { "haste_level": 1 },
+    "plant_on": ["minecraft:dirt", "minecraft:farmland"]
+  },
+  "packed_mud_seed": {
+    "id": "S49", "display": "Packed Mud Seed",
+    "block_id": "minecraft:packed_mud",
+    "rarity": "common", "drop_chance": 1.0,
+    "plant_on": ["minecraft:mud", "minecraft:dirt", "minecraft:farmland"]
+  },
+  "polished_tuff_seed": {
+    "id": "S50", "display": "Polished Tuff Seed",
+    "block_id": "minecraft:polished_tuff",
+    "rarity": "uncommon", "drop_chance": 1.0,
+    "plant_on": ["minecraft:tuff", "minecraft:dirt", "minecraft:farmland"]
+  },
+  "lily_pad_seed": {
+    "id": "S51", "display": "Lily Pad Seed",
+    "block_id": "minecraft:waterlily",
+    "rarity": "rare", "drop_chance": 1.0,
+    "plant_on": ["minecraft:farmland", "minecraft:dirt"]
+  },
+  "mossy_stone_brick_seed": {
+    "id": "S52", "display": "Mossy Stone Brick Seed",
+    "block_id": "minecraft:mossy_stone_bricks",
+    "rarity": "rare", "drop_chance": 1.0,
+    "plant_on": ["minecraft:dirt", "minecraft:farmland"]
+  },
+  "gold_block_seed": {
+    "id": "S53", "display": "Gold Block Seed",
+    "block_id": "minecraft:gold_block",
+    "rarity": "very_rare", "drop_chance": 1.0,
+    "plant_on": ["minecraft:dirt", "minecraft:farmland"]
+  },
+  "rooted_dirt_seed": {
+    "id": "S54", "display": "Rooted Dirt Seed",
+    "block_id": "minecraft:dirt_with_roots",
+    "rarity": "common", "drop_chance": 1.0,
+    "plant_on": ["minecraft:dirt", "minecraft:farmland"]
+  },
+  "cracked_stone_brick_seed": {
+    "id": "S55", "display": "Cracked Stone Brick Seed",
+    "block_id": "minecraft:cracked_stone_bricks",
+    "rarity": "uncommon", "drop_chance": 1.0,
+    "plant_on": ["minecraft:dirt", "minecraft:stone", "minecraft:farmland"]
+  },
+  "reinforced_stone_seed": {
+    "id": "S57", "display": "Reinforced Stone Seed",
+    "block_id": "minecraft:chiseled_stone_bricks",
+    "rarity": "rare", "drop_chance": 1.0,
+    "plant_on": ["minecraft:stone", "minecraft:farmland"]
+  },
+  "deepslate_brick_seed": {
+    "id": "S58", "display": "Deepslate Brick Seed",
+    "block_id": "minecraft:deepslate_bricks",
+    "rarity": "rare", "drop_chance": 1.0,
+    "plant_on": ["minecraft:deepslate", "minecraft:farmland"]
+  },
+  "mossy_deepslate_brick_seed": {
+    "id": "S59", "display": "Mossy Deepslate Brick Seed",
+    "block_id": "minecraft:mossy_deepslate_bricks",
+    "rarity": "rare", "drop_chance": 1.0,
+    "plant_on": ["minecraft:deepslate_bricks", "minecraft:farmland"]
+  },
+  "glazed_terracotta_seed": {
+    "id": "S60", "display": "Glazed Terracotta Seed",
+    "block_id": "minecraft:orange_glazed_terracotta",
+    "rarity": "rare", "drop_chance": 1.0,
+    "plant_on": ["minecraft:hardened_clay", "minecraft:farmland"]
+  },
+  "gilded_blackstone_seed": {
+    "id": "S61", "display": "Gilded Blackstone Seed",
+    "block_id": "minecraft:gilded_blackstone",
+    "rarity": "very_rare", "drop_chance": 1.0,
+    "plant_on": ["minecraft:blackstone", "minecraft:farmland"]
+  },
+  "advanced_miners_gloves": {
+    "id": "S62", "display": "Advanced Miner's Gloves",
+    "block_id": null,
+    "item_id": "terravia:advanced_miners_gloves",
+    "rarity": "very_rare", "drop_chance": 1.0,
+    "is_item": true,
+    "effect": { "haste_level": 2 },
+    "plant_on": ["minecraft:farmland", "minecraft:dirt"]
+  },
+  "diamond_block_seed": {
+    "id": "S63", "display": "Diamond Block Seed",
+    "block_id": "minecraft:diamond_block",
+    "rarity": "legendary", "drop_chance": 1.0,
+    "plant_on": ["minecraft:deepslate", "minecraft:farmland"]
+  },
+  "respawn_anchor_seed": {
+    "id": "S64", "display": "Respawn Anchor Seed",
+    "block_id": "minecraft:respawn_anchor",
+    "rarity": "very_rare", "drop_chance": 1.0,
+    "plant_on": ["minecraft:obsidian", "minecraft:farmland"]
+  },
+  "ancient_debris_seed": {
+    "id": "S65", "display": "Ancient Debris Seed",
+    "block_id": "minecraft:ancient_debris",
+    "rarity": "legendary", "drop_chance": 1.0,
+    "plant_on": ["minecraft:obsidian", "minecraft:deepslate", "minecraft:farmland"]
+  },
+  "mud_brick_seed": {
+    "id": "S66", "display": "Mud Brick Seed",
+    "block_id": "minecraft:mud_bricks",
+    "rarity": "common", "drop_chance": 1.0,
+    "plant_on": ["minecraft:mud", "minecraft:packed_mud", "minecraft:farmland"]
+  },
+  "mangrove_log_seed": {
+    "id": "S67", "display": "Mangrove Log Seed",
+    "block_id": "minecraft:mangrove_log",
+    "rarity": "rare", "drop_chance": 1.0,
+    "plant_on": ["minecraft:dirt", "minecraft:mud", "minecraft:farmland"]
+  },
+  "tuff_brick_seed": {
+    "id": "S68", "display": "Tuff Brick Seed",
+    "block_id": "minecraft:tuff_bricks",
+    "rarity": "rare", "drop_chance": 1.0,
+    "plant_on": ["minecraft:tuff", "minecraft:farmland"]
+  },
+
+  "world_lock": {
+    "id": "U01", "display": "World Lock",
+    "block_id": null, "item_id": "terravia:world_lock",
+    "rarity": "rare", "drop_chance": 1.0,
+    "is_item": true,
+    "plant_on": ["minecraft:dirt", "minecraft:stone", "minecraft:farmland"]
+  },
+  "big_lock": {
+    "id": "U02", "display": "Big Lock",
+    "block_id": null, "item_id": "terravia:big_lock",
+    "rarity": "very_rare", "drop_chance": 1.0,
+    "is_item": true,
+    "plant_on": ["minecraft:dirt", "minecraft:stone", "minecraft:farmland"]
+  },
+  "seed_pouch": {
+    "id": "U03", "display": "Seed Pouch",
+    "block_id": null, "item_id": "terravia:seed_pouch",
+    "rarity": "uncommon", "drop_chance": 1.0,
+    "is_item": true,
+    "plant_on": ["minecraft:dirt", "minecraft:farmland"]
+  }
+}
