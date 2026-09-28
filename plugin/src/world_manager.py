@@ -1,5 +1,5 @@
 """
-GrowWorld — world_manager.py
+Terravia — world_manager.py
 Core world lifecycle: creation, joining, leaving, permission checks,
 world border enforcement, and chunk sending restriction.
 """
@@ -15,7 +15,7 @@ from .models import (
 )
 from .database import Database
 from .shard_manager import ShardManager
-from .world_template import WorldTemplate
+from .world_template import WorldTemplate, Y_BUILD_MIN, Y_BUILD_MAX
 
 if TYPE_CHECKING:
     from endstone.player import Player
@@ -142,7 +142,7 @@ class WorldManager:
             self._teleport_to_lobby(player)
 
         player.send_message(
-            "§6§lWelcome to GrowWorld!§r\n"
+            "§6§lWelcome to Terravia!§r\n"
             "§7Type §f/gw <WORLDNAME>§7 to enter or create a world.\n"
             "§7World names are §fA-Z, 0-9§7, 3-24 characters."
         )
@@ -258,11 +258,25 @@ class WorldManager:
 
         slot = world.slot
 
-        # Boundary check — outside the 256×256 playable area
+        # Horizontal boundary check — outside the 256×256 playable area
         bx, bz = block.x, block.z
         if not slot.contains(bx, bz):
             event.cancelled = True
             player.send_message("§cYou cannot build outside this world's boundaries.")
+            return
+
+        # Vertical boundary check — enforce 256-block height (Y-61 to Y194).
+        # No physical ceiling exists (sky stays open), so the plugin enforces it.
+        by = block.y
+        if not (Y_BUILD_MIN <= by <= Y_BUILD_MAX):
+            event.cancelled = True
+            if by > Y_BUILD_MAX:
+                player.send_message(
+                    f"§cBuild limit reached! Max height is Y{Y_BUILD_MAX} "
+                    f"(256 blocks above the bedrock floor)."
+                )
+            else:
+                player.send_message("§cYou cannot place blocks inside the bedrock floor.")
             return
 
         # Permission check based on lock level

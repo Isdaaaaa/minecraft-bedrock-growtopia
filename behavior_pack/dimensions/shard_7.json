@@ -2,7 +2,7 @@
   "format_version": "1.21.0",
   "minecraft:dimension": {
     "description": {
-      "identifier": "growworld:shard_7"
+      "identifier": "terravia:shard_7"
     },
     "components": {
       "minecraft:dimension_bounds": {

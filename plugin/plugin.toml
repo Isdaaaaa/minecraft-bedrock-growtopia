@@ -1,8 +1,8 @@
 [plugin]
-name = "GrowWorld"
+name = "Terravia"
 version = "0.1.0"
 api_version = "0.5"
-description = "Growtopia-like dynamic world management with shard-based dimensions"
+description = "Growtopia-like dynamic world system for Terravia — shard-based dimensions, per-world isolation"
 authors = ["Isdaaaaa"]
 website = "https://github.com/Isdaaaaa/minecraft-bedrock-growtopia"
 load = "POSTWORLD"

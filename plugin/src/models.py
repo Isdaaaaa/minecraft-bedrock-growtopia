@@ -1,5 +1,5 @@
 """
-GrowWorld — models.py
+Terravia — models.py
 Data models representing worlds, players, and shards.
 """
 
@@ -24,23 +24,23 @@ MAX_SLOT_IDX = MAX_COORD // SLOT_SIZE          # 2441
 SLOTS_PER_SHARD = (MAX_SLOT_IDX * 2 + 1) ** 2  # ~23.8 million per shard
 
 # Pre-defined shard dimension identifiers.
-# Shard 0 = overworld (vanilla), shards 1-9 = custom growworld dimensions.
+# Shard 0 = overworld (vanilla), shards 1-9 = custom terravia dimensions.
 SHARD_DIMENSIONS = {
     0: "minecraft:overworld",
-    1: "growworld:shard_1",
-    2: "growworld:shard_2",
-    3: "growworld:shard_3",
-    4: "growworld:shard_4",
-    5: "growworld:shard_5",
-    6: "growworld:shard_6",
-    7: "growworld:shard_7",
-    8: "growworld:shard_8",
-    9: "growworld:shard_9",
+    1: "terravia:shard_1",
+    2: "terravia:shard_2",
+    3: "terravia:shard_3",
+    4: "terravia:shard_4",
+    5: "terravia:shard_5",
+    6: "terravia:shard_6",
+    7: "terravia:shard_7",
+    8: "terravia:shard_8",
+    9: "terravia:shard_9",
 }
 
 # The hub is a dedicated dimension — NOT a shard.
 # New players always land here first (tutorial / START world equivalent).
-HUB_DIMENSION_ID = "growworld:hub"
+HUB_DIMENSION_ID = "terravia:hub"
 
 # Hub spawn point (centre of a pre-built hub structure in the hub dimension)
 HUB_SPAWN_X: float = 0.5

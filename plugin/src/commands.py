@@ -1,5 +1,5 @@
 """
-GrowWorld — commands.py
+Terravia — commands.py
 Handles all /gw and /gwadmin command dispatching.
 """
 
@@ -17,7 +17,7 @@ if TYPE_CHECKING:
     from .database import Database
 
 
-HELP_TEXT = """§6§l== GrowWorld Commands ==§r
+HELP_TEXT = """§6§l== Terravia Commands ==§r
 §f/gw <WORLDNAME>§7  — Enter or create a world (just like Growtopia!)
 §f/gw leave§7        — Return to the Hub
 §f/gw info [name]§7  — Show world info
@@ -28,7 +28,7 @@ HELP_TEXT = """§6§l== GrowWorld Commands ==§r
 §f/gw add <player>§7 — Grant build access (owner only)
 §f/gw remove <player>§7—Revoke build access"""
 
-ADMIN_HELP = """§c§l== GrowWorld Admin ==§r
+ADMIN_HELP = """§c§l== Terravia Admin ==§r
 §f/gwadmin shards§7     — Show shard usage
 §f/gwadmin worlds§7     — List all worlds (paginated)
 §f/gwadmin tp <world>§7 — Teleport to a world"""

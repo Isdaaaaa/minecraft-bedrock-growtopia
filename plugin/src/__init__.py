@@ -1,5 +1,5 @@
 """
-GrowWorld — __init__.py
+Terravia — __init__.py
 Main Endstone plugin entry point. Wires all subsystems together.
 """
 
@@ -24,7 +24,7 @@ from .tablist_manager import TabListManager
 from .commands import CommandHandler
 
 
-class GrowWorldPlugin(Plugin):
+class TerraviaPlugin(Plugin):
     api_version = "0.5"
 
     # ------------------------------------------------------------------
@@ -32,7 +32,7 @@ class GrowWorldPlugin(Plugin):
     # ------------------------------------------------------------------
 
     def on_enable(self) -> None:
-        self.logger.info("GrowWorld starting up…")
+        self.logger.info("Terravia starting up…")
 
         # Persistence
         self.db = Database(self.data_folder)
@@ -54,7 +54,7 @@ class GrowWorldPlugin(Plugin):
         self.register_events(self)
 
         self.logger.info(
-            f"GrowWorld ready. "
+            f"Terravia ready. "
             f"Slot size: {SLOT_SIZE}×{SLOT_SIZE} blocks | "
             f"Playable: {WORLD_SIZE}×{WORLD_SIZE} | "
             f"Buffer: {BUFFER} blocks | "
@@ -63,7 +63,7 @@ class GrowWorldPlugin(Plugin):
 
     def on_disable(self) -> None:
         self.db.close()
-        self.logger.info("GrowWorld shut down.")
+        self.logger.info("Terravia shut down.")
 
     # ------------------------------------------------------------------
     # Commands

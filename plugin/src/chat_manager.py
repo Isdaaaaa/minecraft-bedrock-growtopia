@@ -1,5 +1,5 @@
 """
-GrowWorld — chat_manager.py
+Terravia — chat_manager.py
 Intercepts all player chat and re-routes it to only players
 in the same world. Server-wide broadcasts bypass this entirely.
 """

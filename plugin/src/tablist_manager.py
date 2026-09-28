@@ -1,5 +1,5 @@
 """
-GrowWorld — tablist_manager.py
+Terravia — tablist_manager.py
 Maintains per-player tab list visibility — each player only sees
 others who are in the same world (or lobby).
 Refreshed whenever any player joins, leaves, or switches worlds.

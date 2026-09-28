@@ -1,5 +1,5 @@
 """
-GrowWorld — shard_manager.py
+Terravia — shard_manager.py
 Manages slot allocation across pre-defined dimension shards.
 
 Strategy: spiral outward from origin (0,0) within each shard so the

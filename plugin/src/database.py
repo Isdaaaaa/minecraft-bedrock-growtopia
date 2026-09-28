@@ -1,5 +1,5 @@
 """
-GrowWorld — database.py
+Terravia — database.py
 SQLite persistence layer for worlds, player sessions, and access lists.
 """
 
@@ -8,13 +8,13 @@ import sqlite3
 import os
 import time
 from typing import Optional, List
-from .models import GrowWorld, PlayerSession, LockLevel
+from .models import Terravia, PlayerSession, LockLevel
 
 
 class Database:
     def __init__(self, data_folder: str):
         os.makedirs(data_folder, exist_ok=True)
-        db_path = os.path.join(data_folder, "growworld.db")
+        db_path = os.path.join(data_folder, "terravia.db")
         self._conn = sqlite3.connect(db_path, check_same_thread=False)
         self._conn.row_factory = sqlite3.Row
         self._migrate()
@@ -98,7 +98,7 @@ class Database:
     # World CRUD
     # ------------------------------------------------------------------
 
-    def create_world(self, world: GrowWorld) -> None:
+    def create_world(self, world: Terravia) -> None:
         cur = self._conn.cursor()
         cur.execute("""
             INSERT INTO worlds
@@ -117,7 +117,7 @@ class Database:
         """, (world.shard_id, world.slot_x, world.slot_z, world.world_id))
         self._conn.commit()
 
-    def get_world(self, world_id: str) -> Optional[GrowWorld]:
+    def get_world(self, world_id: str) -> Optional[Terravia]:
         row = self._conn.execute(
             "SELECT * FROM worlds WHERE world_id = ?", (world_id.upper(),)
         ).fetchone()
@@ -150,8 +150,8 @@ class Database:
         )
         self._conn.commit()
 
-    def _row_to_world(self, row: sqlite3.Row) -> GrowWorld:
-        return GrowWorld(
+    def _row_to_world(self, row: sqlite3.Row) -> Terravia:
+        return Terravia(
             world_id=row["world_id"],
             owner_uuid=row["owner_uuid"],
             owner_name=row["owner_name"],
